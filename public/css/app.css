@@ -3082,6 +3082,10 @@ select {
     .md\:border-l {
         border-left-width: 1px;
     }
+    
+    .fundo {
+        background-image: url("{{asset('img/background.jpg')}}");
+    }
 }
 @media (min-width: 1024px) {
     .lg\:col-span-4 {
