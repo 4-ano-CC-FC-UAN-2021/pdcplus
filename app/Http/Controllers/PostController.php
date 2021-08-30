@@ -8,11 +8,12 @@ use Illuminate\Validation\Rule;
 use App\Models\Post;
 use App\Models\Autorizacao;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
     public function create(){
-        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => Post::all()]);
+        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => DB::table('posts')->orderBy('updated_at', 'desc')->get()]);
     }
 
     public function store(StorePostRequest $request){
@@ -23,6 +24,6 @@ class PostController extends Controller
         $post->autorizacao_id = $request->autorizacao;
         $post->user_id = Auth::user()->id;
         $post->save();
-        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => Post::all()]);
+        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => DB::table('posts')->orderBy('updated_at', 'desc')->get()]);
     }
 }

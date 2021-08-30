@@ -126,6 +126,7 @@
                             </form>
                         </div>
                     </div>
+
                     <!-- share box end -->
                     @foreach ($posts as $post)
                     <!-- post status start -->
@@ -170,8 +171,10 @@
                             <!--are do comentario-->
                             <div class="post-meta">
                                 <div class="share-content-box w-100">
-                                    <form class="share-text-box">
-                                        <textarea name="share" class="share-text-field" aria-disabled="true" placeholder="O que achaste?"></textarea>
+                                    <form class="share-text-box" method="POST" action="{{route('comentar')}}">
+                                        @csrf
+                                        <textarea name="comentario" class="share-text-field" aria-disabled="true" placeholder="O que achaste?"></textarea>
+                                        <input type="hidden" name="post_id" value="{{$post->id}}">
                                         <button class="btn-share" type="submit">Comentar</button>
                                     </form>
                                 </div>
