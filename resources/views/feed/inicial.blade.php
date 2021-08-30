@@ -22,8 +22,12 @@
                                     </a>
                                 </figure>
                                 <div class="profile-desc text-center">
-                                    <h6 class="author"><a href="profile.html">Eu</a></h6>
-                                    <p>Any one can join with but Social network us if you want Any one can join with us if you want</p>
+                                    <h6 class="author"><a href="profile.html">{{Auth::user()->name}}</a></h6>
+                                    <p>            
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -71,52 +75,59 @@
                             <!-- profile picture end -->
 
                             <!-- share content box start -->
-                            <div class="share-content-box w-100">
-                                <form class="share-text-box">
-                                    <textarea name="share" class="share-text-field" aria-disabled="true" placeholder="O que está pensando..." data-toggle="modal" data-target="#textbox" id="email"></textarea>
-                                    <button class="btn-share" type="submit">Publicar</button>
-                                </form>
-                            </div>
-                            <!-- share content box end -->
+                            <form class="share-text-box" method="POST" action="{{route('cadastrar.post')}}">
+                                @csrf
+                                <div class="share-content-box w-100">
+                                    
+                                        <textarea name="share" class="share-text-field" aria-disabled="true" placeholder="O que está pensando..." data-toggle="modal" data-target="#textbox" id="email"></textarea>
+                                        <button class="btn-share" type="submit">Publicar</button>
+                                    
+                                </div>
+                                <!-- share content box end -->
 
-                            <!-- Modal start -->
-                            <div class="modal fade" id="textbox" aria-labelledby="textbox">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">O que está pensando...</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body custom-scroll">
-                                            <textarea name="Publicar" class="share-field-big custom-scroll" placeholder="Acho que..."></textarea>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <div class="custom-file">
-                                                <input type="file" class="post-share-btn custom-file-input " id="customFileLang">
-                                                <label class="custom-file-label" for="customFileLang"></label>
-                                              </div>
-                                            <select name="permicao" style="background-color:black" class="post-share-btn">
-                                                <option  value="protegida">Protegida</option>
-                                                <option value="desprotegida">Desprotegida</option>
-                                            </select>
-                                            
-                                            <select name="permicao" style="background-color:black" class="post-share-btn">
-                                                <option  value="publica">Publica</option>
-                                                <option value="privada">Privada</option>
-                                            </select>
-                                            <button type="button" class="post-share-btn" data-dismiss="modal">Cancelar</button>
-                                            <button type="button" class="post-share-btn">Publicar</button>
+                                <!-- Modal start -->
+                                <div class="modal fade" id="textbox" aria-labelledby="textbox">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+                                                <h5 class="modal-title">O que está pensando...</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body custom-scroll">
+                                                <textarea name="legenda" class="share-field-big custom-scroll" placeholder="Acho que..."></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="custom-file">
+                                                    <input type="file" class="post-share-btn custom-file-input " id="customFileLang">
+                                                    <label class="custom-file-label" for="customFileLang"></label>
+                                                </div>
+                                                <select name="tipo" style="background-color:black" class="post-share-btn">
+                                                    <option value="protegida">Protegida</option>
+                                                    <option value="desprotegida">Desprotegida</option>
+                                                </select>
+                                                
+                                                <select name="autorizacao" style="background-color:black" class="post-share-btn">
+                                                    <!--Aqui busca todas modalidades para publicaoes e apresenta como opcões-->
+                                                    @foreach ($autorizacoes as $autorizacao)
+                                                        <option  value="{{ $autorizacao->id }}">{{ $autorizacao->descricao }}</option>    
+                                                    @endforeach
+                                                </select>
+                                                <button type="button" class="post-share-btn" data-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="post-share-btn">Publicar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                
                             <!-- Modal end -->
+                            </form>
                         </div>
                     </div>
                     <!-- share box end -->
-
+                    @foreach ($posts as $post)
                     <!-- post status start -->
                     <div class="card">
                         <!-- post title start -->
@@ -133,15 +144,14 @@
 
                             <div class="posted-author">
                                 <h6 class="author"><a href="profile.html">Eu</a></h6>
-                                <span class="post-time">20 min ago</span>
+                                <span class="post-time">{{$post->updated_at}}</span>
                             </div>
                         </div>
                         <!-- post title start -->
+                        
                         <div class="post-content">
                             <p class="post-desc">
-                                Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                in their infancy.
+                                {{$post->legenda}}
                             </p>
                             <div class="post-meta">
                                 <button class="post-meta-like">
@@ -168,7 +178,9 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
                     <!-- post status end -->
+
 
                    
                 </div>

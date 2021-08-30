@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Autorizacao;
+use App\Models\Post;
 
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,5 +21,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('feed.inicial');
+    return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => Post::all()]);
 })->name('dashboard');
+
+Route::post('/publicar',[PostController::class,'store'])->name('cadastrar.post');
