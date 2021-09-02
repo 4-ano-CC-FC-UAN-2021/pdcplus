@@ -68,7 +68,7 @@
                             <div class="profile-thumb">
                                 <a href="#">
                                     <figure class="profile-thumb-middle">
-                                        <img src="assets/images/profile/profile-small-37.jpg" alt="profile picture">
+                                        <img src="{{asset('images/profile/avatar.jpg')}}" alt="profile picture">
                                     </figure>
                                 </a>
                             </div>
@@ -137,7 +137,7 @@
                             <div class="profile-thumb">
                                 <a href="#">
                                     <figure class="profile-thumb-middle">
-                                        <img src="assets/images/profile/profile-small-1.jpg" alt="profile picture">
+                                        <img src="{{asset('images/profile/avatar.jpg')}}" alt="profile picture">
                                     </figure>
                                 </a>
                             </div>

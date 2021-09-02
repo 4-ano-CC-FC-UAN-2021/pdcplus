@@ -28,3 +28,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::post('/publicar',[PostController::class,'store'])->name('cadastrar.post');
 Route::post('/comentar',[ComentarioController::class,'store'])->name('comentar');
+Route::get('/comentarios/{post_id}',[ComentarioController::class,'create'])->name('comentarios.publicacao');
