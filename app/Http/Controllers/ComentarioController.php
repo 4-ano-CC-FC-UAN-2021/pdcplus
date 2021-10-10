@@ -24,4 +24,8 @@ class ComentarioController extends Controller
         return redirect()->route('comentarios.publicacao', Crypt::encryptString($request->post_id));
         //return view('comentario.post', ['posts' => Post::find($request->post_id), 'comentarios' => $comentariosDoPost]);
     }
+
+    public function countComenterios($id){
+        return count(Post::find($id)->comentarios);
+    }
 }

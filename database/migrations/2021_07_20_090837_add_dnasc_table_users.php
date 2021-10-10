@@ -14,9 +14,7 @@ class AddDnascTableUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('dnasc') // Nome da coluna
-                        ->unique() // unico
-                        ->after('email'); // Ordenado após a coluna "password"
+            $table->timestamp('dnasc')->nullable();; // Ordenado após a coluna "password"
         });
     }
 

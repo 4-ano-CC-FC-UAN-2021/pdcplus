@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Pdc-Plus'),
+    'name' => env('APP_NAME', 'PDC+'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,8 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
-        
+
     ],
 
     /*

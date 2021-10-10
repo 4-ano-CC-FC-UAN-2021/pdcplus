@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Autorizacao;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ComentarioController;
 
 class PostController extends Controller
 {
@@ -24,6 +25,19 @@ class PostController extends Controller
         $post->autorizacao_id = $request->autorizacao;
         $post->user_id = Auth::user()->id;
         $post->save();
-        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => DB::table('posts')->orderBy('updated_at', 'desc')->get()]);
+        return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => $this->publicacoes()]);
+    }
+
+    
+    public function publicacoes(){
+        $comentario = new ComentarioController;
+        $posts = DB::table('posts')->orderBy('updated_at', 'desc')->get();
+        $publicacoes =  array();
+        foreach ($posts as $post) {
+            $post->qtd_comentarios = $comentario->countComenterios($post->id);
+            array_push($publicacoes,$post);
+        }
+        $publicacoes = (object) $publicacoes;
+        return $publicacoes;
     }
 }

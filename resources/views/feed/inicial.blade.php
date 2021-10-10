@@ -126,7 +126,7 @@
                             </form>
                         </div>
                     </div>
-
+                    
                     <!-- share box end -->
                     @foreach ($posts as $post)
                     <!-- post status start -->
@@ -163,7 +163,7 @@
                                     <li>
                                         <button class="post-comment">
                                             <i class="bi bi-chat-bubble"></i>
-                                            <span>41</span>
+                                            <span>{{$post->qtd_comentarios}}</span>
                                         </button>
                                     </li>
                                 </ul>

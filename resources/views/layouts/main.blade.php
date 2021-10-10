@@ -48,7 +48,7 @@
                         <div class="header-top-navigation">
                             <nav>
                                 <ul>
-                                    <li class="active"><a href="index.html">home</a></li>
+                                    <li class="active"><a href="{{route('dashboard')}}">home</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -69,8 +69,9 @@
                         <div class="header-top-right d-flex align-items-center justify-content-end">
                             <!-- header top search start -->
                             <div class="header-top-search">
-                                <form class="top-search-box">
-                                    <input type="text" placeholder="Procurar" class="top-search-field">
+                                <form method="POST" action="{{route('search')}}" class="top-search-box">
+                                    @csrf
+                                    <input name="busca" type="text" placeholder="Procurar" class="top-search-field">
                                     <button class="top-search-btn"><i class="flaticon-search"></i></button>
                                 </form>
                             </div>
@@ -81,7 +82,7 @@
                                 <div class="profile-thumb-small">
                                     <a href="javascript:void(0)" class="profile-triger">
                                         <figure>
-                                            <img src="assets/images/profile/profile-small-1.jpg" alt="profile picture">
+                                            <img src="{{asset('images/profile/avatar.jpg')}}" alt="profile picture">
                                         </figure>
                                     </a>
                                     <div class="profile-dropdown">
@@ -97,7 +98,7 @@
                                             </ul>
                                             <ul>
                                                 <li><a href="#"><i class="flaticon-settings"></i>Setting</a></li>
-                                                <li><a href="signup.html"><i class="flaticon-unlock"></i>Sing out</a></li>
+                                                <li><a href=""><i class="flaticon-unlock"></i>Sing out</a></li>
                                             </ul>
                                         </div>
                                     </div>
