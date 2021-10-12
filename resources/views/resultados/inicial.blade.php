@@ -96,7 +96,28 @@
                                         {{$result->email}}
                                     </p>
                                     <div class="request-btn-inner">
-                                        <a href="{{route('add.amigo', Crypt::encryptString($result->id))}}" class="frnd-btn">Adicionar</a>
+                                        @if ($result->estado == 2)
+                                            <div class="request-btn-inner">
+                                                <a href="{{route('confirmar.amigo', Crypt::encryptString($result->id))}}" class="frnd-btn">confirmar</a>
+                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($result->id))}}" class="frnd-btn">ignorar</a>
+                                            </div>
+                                        @elseif($result->estado == 1)
+                                            <div class="request-btn-inner">
+                                                <h6>Amigos</h6>
+                                            </div>
+                                        @elseif($result->estado == -1)
+                                            <div class="request-btn-inner">
+                                                <a href="{{route('add.amigo', Crypt::encryptString($result->id))}}" class="frnd-btn">Adicionar</a>
+                                            </div>
+                                        @else
+                                            <div class="request-btn-inner">
+                                                <p>Solicitação Feita</p>
+                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($result->id))}}" class="frnd-btn">Cancelar</a>
+                                            </div>
+                                        @endif
+
+
+                                        
                                         <!--<button class="frnd-btn delete">ignorar</button>-->
                                     </div>
                                     

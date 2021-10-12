@@ -8,14 +8,22 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Amigo;
+use App\Http\Controllers\AmigoController;
 use Exception;
 
 class UserController extends Controller
 {
     public function resultados($info){
+        $amigo = new AmigoController;
         $dado = Crypt::decryptString($info);
         $resultados = DB::select( DB::raw("SELECT id, name, username, email FROM `users` WHERE name like '%$dado%' or username like '%$dado%' or email like '%$dado%'") );
-        return view('resultados.inicial',['results' => $resultados]);
+        $amigos = array();
+        foreach ($resultados as $resultado) {
+            $resultado->estado = $amigo->isamigo($resultado->id);
+            array_push($amigos, $resultado);
+        }
+        $amigos = (object) $amigos;
+        return view('resultados.inicial',['results' => $amigos]);
     }
 
 
@@ -23,16 +31,4 @@ class UserController extends Controller
         return redirect()->route('results', Crypt::encryptString($request->busca));
     }
 
-    public function add($amigo_id){
-        try{
-            $amigo_id = Crypt::decryptString($amigo_id);
-            $amigo = new Amigo;
-            $amigo->user_id_send = Auth::user()->id;
-            $amigo->user_id_receive = $amigo_id;
-            $amigo->estado = 0;
-            $amigo->save();
-        }catch(Exception $e){
-            dd("Pedido reretido");
-        }
-    }
 }

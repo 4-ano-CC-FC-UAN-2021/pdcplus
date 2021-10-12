@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AmigoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,6 @@ Route::get('/busca/{info}',[UserController::class,'resultados'])->name('results'
 Route::post('/publicar',[PostController::class,'store'])->name('cadastrar.post')->middleware('auth');
 Route::post('/comentar',[ComentarioController::class,'store'])->name('comentar')->middleware('auth');
 Route::get('/comentarios/{post_id}',[ComentarioController::class,'create'])->name('comentarios.publicacao')->middleware('auth');
-Route::get('/addamigo/{amigo_id}',[UserController::class,'add'])->name('add.amigo');
+Route::get('/addamigo/{amigo_id}',[AmigoController::class,'addAmigo'])->name('add.amigo');
+Route::get('/confirmar/{amigo_id}',[AmigoController::class,'confirmarAmigo'])->name('confirmar.amigo');
+Route::get('/cancelar/{amigo_id}',[AmigoController::class,'cancelarAmigo'])->name('cancelar.amigo');
