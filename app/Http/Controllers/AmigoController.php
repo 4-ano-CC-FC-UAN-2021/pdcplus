@@ -34,6 +34,8 @@ class AmigoController extends Controller
         try{
             Amigo::where('user_id_send', $amigo_id)->where('user_id_receive', $user)
                 ->update(['estado' => 1]);
+            
+            return back();
         }catch(Exception $e){
             dd("Erro inesperado na confirmação do Pedido de Amizade");
         }
@@ -43,8 +45,9 @@ class AmigoController extends Controller
         $user = Auth::user()->id;
         $amigo_id = Crypt::decryptString($amigo_id);
         try{
-            Amigo::where('user_id_send', $user)->where('user_id_receive', $amigo_id)
+            Amigo::where('user_id_send', $amigo_id)->where('user_id_receive', $user)
                 ->delete();
+            return back();
         }catch(Exception $e){
             dd("Erro inesperado na confirmação do Pedido de Amizade");
         }
@@ -59,9 +62,25 @@ class AmigoController extends Controller
             $amigo->user_id_receive = $amigo_id;
             $amigo->estado = 0;
             $amigo->save();
+            return back();
         }catch(Exception $e){
             dd("Pedido reretido");
         }
+    }
+
+    public function pedidosRecebidos(){
+        $user = Auth::user()->id;
+        $recebidos = DB::select( DB::raw("SELECT id,name,email,username from users where id in (select user_id_send from amigos where user_id_receive= $user and estado=0);") );
+        if($recebidos){
+            $amigos = array();
+            foreach ($recebidos as $recebido) {
+                $recebido->estado = $this->isamigo($recebido->id);
+                array_push($amigos, $recebido);
+            }
+            $amigos = (object) $amigos;
+            return $amigos;
+        }
+        return null;
     }
 
 }

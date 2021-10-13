@@ -33,28 +33,7 @@
                         </div>
                         <!-- widget single item start -->
 
-                        <!-- widget single item start -->
-                        <div class="card widget-item">
-                            <h4 class="widget-title">Pedidos de Ligações</h4>
-                            <div class="widget-body">
-                                <ul class="like-page-list-wrapper">
-                                    <li class="unorder-list">
-                                        <!-- profile picture end -->
-                                        <div class="frnd-content">
-                                            <h6 class="author"><a href="profile.html">merry watson</a></h6>
-                                            <p class="author-subtitle">Works at HasTech</p>
-                                            <div class="request-btn-inner">
-                                                <button class="frnd-btn">confirmar</button>
-                                                <button class="frnd-btn delete">ignorar</button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- widget single item end -->
-
+                        
                         
                         <!-- widget single item end -->
                     </aside>

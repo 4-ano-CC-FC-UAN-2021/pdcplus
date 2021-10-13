@@ -41,12 +41,38 @@
                                     <li class="unorder-list">
                                         <!-- profile picture end -->
                                         <div class="frnd-content">
-                                            <h6 class="author"><a href="profile.html">merry watson</a></h6>
-                                            <p class="author-subtitle">Works at HasTech</p>
-                                            <div class="request-btn-inner">
-                                                <button class="frnd-btn">confirmar</button>
-                                                <button class="frnd-btn delete">ignorar</button>
-                                            </div>
+                                            @if (!$pedidos)
+                                                <p class="author-subtitle">Sem pedidos de amizade novos</p>
+                                            @else
+                                                @foreach ($pedidos as $pedido)
+                                                    <h6 class="author"><a href="#perfil"></a></h6>
+                                                    <p class="author-subtitle">{{$pedido->name." - @".$pedido->username}}</p>
+
+                                                    <div class="request-btn-inner">
+                                                        @if ($pedido->estado == 2)
+                                                            <div class="request-btn-inner">
+                                                                <a href="{{route('confirmar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">confirmar</a>
+                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">ignorar</a>
+                                                            </div>
+                                                        @elseif($pedido->estado == 1)
+                                                            <div class="request-btn-inner">
+                                                                <h6>Amigos</h6>
+                                                            </div>
+                                                        @elseif($pedido->estado == -1)
+                                                            <div class="request-btn-inner">
+                                                                <a href="{{route('add.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">Adicionar</a>
+                                                            </div>
+                                                        @else
+                                                            <div class="request-btn-inner">
+                                                                <p>Solicitação Feita</p>
+                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">Cancelar</a>
+                                                            </div>
+                                                        @endif
+                
+                                                @endforeach
+                                                
+                                            @endif
+                                            
                                         </div>
                                     </li>
                                     

@@ -25,8 +25,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    $pubs= new PostController;
-    return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => $pubs->publicacoes()]);
+    $pubs = new PostController;
+    $pedidos = new AmigoController;
+    return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => $pubs->publicacoes(), 'pedidos'=>$pedidos->pedidosRecebidos()]);
 })->name('dashboard');
 
 Route::post('/busca',[UserController::class,'busca'])->name('search')->middleware('auth');
