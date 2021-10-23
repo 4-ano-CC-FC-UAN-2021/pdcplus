@@ -91,14 +91,9 @@
                                             <a class="mail" href="#">{{Auth::user()->email}}</a>
                                         </div>
                                         <div class="profile-body">
-                                            <ul>
-                                                <li><a href="profile.html"><i class="flaticon-user"></i>Profile</a></li>
-                                                <li><a href="#"><i class="flaticon-message"></i>Inbox</a></li>
-                                                <li><a href="#"><i class="flaticon-document"></i>Activity</a></li>
-                                            </ul>
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-settings"></i>Setting</a></li>
-                                                <li><a href=""><i class="flaticon-unlock"></i>Sing out</a></li>
+                                            <ul>  
+                                                <li><a href="{{route('create.deposito')}}"><i class="flaticon-settings"></i>Depositar</a></li>
+                                                <li><a href="{{route('sair')}}"><i class="flaticon-unlock"></i>Logout</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -112,90 +107,7 @@
         </div>
     </header>
     <!-- header area end -->
-    <!-- header area start -->
-    <header>
-        <div class="mobile-header-wrapper sticky d-block d-lg-none">
-            <div class="mobile-header position-relative ">
-                <div class="mobile-logo">
-                    <a href="#">
-                        <img style="width:40px" src="{{asset('img/logo/logo.png')}}" alt="brand logo">
-                    </a>
-                </div>
-                <div class="mobile-menu w-100">
-                    <ul>
-                        <li>
-                            <button class="notification request-trigger"><i class="flaticon-users"></i>
-                                <span>03</span>
-                            </button>
-                            <ul class="frnd-request-list">
-                                <li>
-                                    <div class="frnd-request-member">
-                                        <figure class="request-thumb">
-                                            <a href="profile.html">
-                                                <img src="assets/images/profile/profile-midle-1.jpg" alt="proflie author">
-                                            </a>
-                                        </figure>
-                                        <div class="frnd-content">
-                                            <h6 class="author"><a href="profile.html">merry watson</a></h6>
-                                            <p class="author-subtitle">Works at HasTech</p>
-                                            <div class="request-btn-inner">
-                                                <button class="frnd-btn">confirm</button>
-                                                <button class="frnd-btn delete">delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                
-                            </ul>
-                        </li>
-                        
-                        <li>
-                            <button class="search-trigger">
-                                <i class="search-icon flaticon-search"></i>
-                                <i class="close-icon flaticon-cross-out"></i>
-                            </button>
-                            <div class="mob-search-box">
-                                <form class="mob-search-inner">
-                                    <input type="text" placeholder="Pesquise aqui..." class="mob-search-field">
-                                    <button class="mob-search-btn"><i class="flaticon-search"></i></button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="mobile-header-profile">
-                    <!-- profile picture end -->
-                    <div class="profile-thumb profile-setting-box">
-                        <a href="javascript:void(0)" class="profile-triger">
-                            <figure class="profile-thumb-middle">
-                                <img src="assets/images/profile/profile-small-1.jpg" alt="profile picture">
-                            </figure>
-                        </a>
-                        <div class="profile-dropdown text-left">
-                            <div class="profile-head">
-                                <h5 class="name"><a href="#">Madison Howard</a></h5>
-                                <a class="mail" href="#">mailnam@mail.com</a>
-                            </div>
-                            <div class="profile-body">
-                                <ul>
-                                    <li><a href="profile.html"><i class="flaticon-user"></i>Profile</a></li>
-                                    <li><a href="#"><i class="flaticon-message"></i>Inbox</a></li>
-                                    <li><a href="#"><i class="flaticon-document"></i>Activity</a></li>
-                                </ul>
-                                <ul>
-                                    <li><a href="#"><i class="flaticon-settings"></i>Setting</a></li>
-                                    <li><a href="signup.html"><i class="flaticon-unlock"></i>Sing out</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- profile picture end -->
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- header area end -->
-
+    
     
     <!--Main-->
     @yield('content')

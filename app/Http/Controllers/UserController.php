@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Amigo;
 use App\Http\Controllers\AmigoController;
 use Exception;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    
     public function resultados($info){
         $amigo = new AmigoController;
         $dado = Crypt::decryptString($info);
@@ -29,6 +31,14 @@ class UserController extends Controller
 
     public function busca(Request $request){
         return redirect()->route('results', Crypt::encryptString($request->busca));
+    }
+
+    public function sair(){
+        Session::flush();
+        
+        Auth::logout();
+
+        return redirect('login');
     }
 
 }

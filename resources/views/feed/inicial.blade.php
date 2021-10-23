@@ -52,7 +52,7 @@
                                                         @if ($pedido->estado == 2)
                                                             <div class="request-btn-inner">
                                                                 <a href="{{route('confirmar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">confirmar</a>
-                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">ignorar</a>
+                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn delete">ignorar</a>
                                                             </div>
                                                         @elseif($pedido->estado == 1)
                                                             <div class="request-btn-inner">
@@ -65,7 +65,7 @@
                                                         @else
                                                             <div class="request-btn-inner">
                                                                 <p>Solicitação Feita</p>
-                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn">Cancelar</a>
+                                                                <a href="{{route('cancelar.amigo', Crypt::encryptString($pedido->id))}}" class="frnd-btn delete">Cancelar</a>
                                                             </div>
                                                         @endif
                 
@@ -101,7 +101,7 @@
                             <!-- profile picture end -->
 
                             <!-- share content box start -->
-                            <form class="share-text-box" method="POST" action="{{route('cadastrar.post')}}">
+                            <form class="share-text-box" method="POST" action="{{route('cadastrar.post')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="share-content-box w-100">
                                     
@@ -127,12 +127,12 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="custom-file">
-                                                    <input type="file" class="post-share-btn custom-file-input " id="customFileLang">
+                                                    <input type="file" name="ficheiro" class="post-share-btn custom-file-input " id="customFileLang">
                                                     <label class="custom-file-label" for="customFileLang"></label>
                                                 </div>
                                                 <select name="tipo" style="background-color:black" class="post-share-btn">
-                                                    <option value="protegida">Protegida</option>
                                                     <option value="desprotegida">Desprotegida</option>
+                                                    <option value="protegida">Protegida</option>
                                                 </select>
                                                 
                                                 <select name="autorizacao" style="background-color:black" class="post-share-btn">
@@ -155,6 +155,7 @@
                     
                     <!-- share box end -->
                     @foreach ($posts as $post)
+
                     <!-- post status start -->
                     <div class="card">
                         <!-- post title start -->
@@ -170,7 +171,7 @@
                             <!-- profile picture end -->
 
                             <div class="posted-author">
-                                <h6 class="author"><a href="profile.html">Eu</a></h6>
+                                <h6 class="author"><a href="#">{{($post->uid == Auth::user()->id)?"Eu":$post->name}}</a></h6>
                                 <span class="post-time">{{$post->updated_at}}</span>
                             </div>
                         </div>
@@ -180,10 +181,19 @@
                             <p class="post-desc">
                                 {{$post->legenda}}
                             </p>
+                            @if(isset($post->file))
+                                @if($post->uid == Auth::user()->id)
+                                    <a href="{{asset("tmp/".$post->file)}}">Baixar Conteudo </a>
+                                @elseif($post->preco == 0)
+                                    <a href="{{asset("tmp/".$post->file)}}">Baixar Conteudo </a>
+                                @else
+                                    <a href="{{route("pagar.conteudo",['creditar_id'=>Crypt::encrypt($post->uid),'valor'=>Crypt::encrypt($post->preco),'saldo'=>Crypt::encrypt($saldo->return),'post_id'=>Crypt::encrypt($post->id)])}}">Pagar Pelo Conteudo </a>
+                                @endif
+                            @endif
                             <div class="post-meta">
                                 <button class="post-meta-like">
                                     <i class="bi bi-heart-beat"></i>
-                                    <span>41</span>
+                                    <span>0</span>
                                 </button>
                                 <ul class="comment-share-meta">
                                     <li>
@@ -218,23 +228,15 @@
                     <aside class="widget-area">
                         <!-- widget single item start -->
                         <div class="card widget-item">
-                            <h4 class="widget-title">Actividades Recentes</h4>
+                            <h4 class="widget-title">Saldo na Conta Pagamigo</h4>
                             <div class="widget-body">
                                 <ul class="like-page-list-wrapper">
                                     <li class="unorder-list">
                                         <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="assets/images/profile/profile-small-9.jpg" alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
-
+                                        
                                         <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                            <p class="list-subtitle">5 min ago</p>
+                                            <h3 class="list-title">{{$saldo->return}}</h3>
+                                            <p class="list-subtitle">Valor em Kwanzas</p>
                                         </div>
                                     </li>
                                     
@@ -244,36 +246,7 @@
                         <!-- widget single item end -->
 
                         
-                        <!-- widget single item start -->
-                        <div class="card widget-item">
-                            <h4 class="widget-title">Sugestão de Amizades</h4>
-                            <div class="widget-body">
-                                <ul class="like-page-list-wrapper">
-                                    <li class="unorder-list">
-                                        <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="assets/images/profile/profile-small-33.jpg" alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
-
-                                        <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Ammeya Jakson</a></h3>
-                                            <p class="list-subtitle"><a href="#">10 mutual</a></p>
-                                        </div>
-                                        <button class="like-button">
-                                            <img class="heart" src="assets/images/icons/heart.png" alt="">
-                                            <img class="heart-color" src="assets/images/icons/heart-color.png" alt="">
-                                        </button>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- widget single item end -->
+                        
                     </aside>
                 </div>
             </div>
