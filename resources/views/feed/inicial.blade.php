@@ -2,7 +2,11 @@
 
 @section('title', 'Pagina Inicial')
 @section('content')
-    
+
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
 <main>
 
     <div class="main-wrapper pt-80">
@@ -186,15 +190,19 @@
                                     <a href="{{asset("tmp/".$post->file)}}">Baixar Conteudo </a>
                                 @elseif($post->preco == 0)
                                     <a href="{{asset("tmp/".$post->file)}}">Baixar Conteudo </a>
+                                @elseif($post->pagamento)
+                                    <a href="{{asset("tmp/".$post->file)}}">Baixar Conteudo </a>
                                 @else
                                     <a href="{{route("pagar.conteudo",['creditar_id'=>Crypt::encrypt($post->uid),'valor'=>Crypt::encrypt($post->preco),'saldo'=>Crypt::encrypt($saldo->return),'post_id'=>Crypt::encrypt($post->id)])}}">Pagar Pelo Conteudo </a>
                                 @endif
                             @endif
                             <div class="post-meta">
-                                <button class="post-meta-like">
-                                    <i class="bi bi-heart-beat"></i>
-                                    <span>0</span>
-                                </button>
+
+                                <div class="post-action">
+                                    <button value="Like" style="{{($post->isClassificao == 1)?'color:#ffa449':'color:lightseagreen'}}" id="{{"like_".$post->id}}" class="like">Gosto (<span id="{{"likes_".$post->id}}">{{$post->likes}}</span>)&nbsp;</button>
+
+                                    <button value="Unlike" style="{{($post->isClassificao == 0)?'color:#ffa449':'color:lightseagreen'}}" id="{{"unlike_".$post->id}}" class="unlike">Não Gosto (<span id="{{"unlikes_".$post->id}}">{{$post->unlikes}}</span>)
+                                </div>
                                 <ul class="comment-share-meta">
                                     <li>
                                         <button class="post-comment">
@@ -256,3 +264,63 @@
 </main>
 
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+// like and unlike click
+$(".like, .unlike").click(function(){
+    var id = this.id;   // Getting Button id
+    var split_id = id.split("_");
+
+    var text = split_id[0];
+    var postid = split_id[1];  // postid
+
+    // Finding click type
+    var type = 0;
+    if(text == "like"){
+        type = 1;
+    }else{
+        type = 0;
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    // AJAX Request
+    $.ajax({
+        url:"{{ URL::to('/like/') }}",
+        type: 'POST',
+        data: {postid:postid,type:type},
+        dataType: 'json',
+        
+        success: function(data){
+            
+            var likes = data['likes'];
+            var unlikes = data['unlikes'];
+            
+            $("span#likes_"+postid).html(likes);        // setting likes
+            $("span#unlikes_"+postid).html(unlikes);    // setting unlikes
+            
+            if(type == 1){
+                $("#like_"+postid).css("color","#ffa449");
+                $("#unlike_"+postid).css("color","lightseagreen");
+            }
+
+            if(type == 0){
+                $("#unlike_"+postid).css("color","#ffa449");
+                $("#like_"+postid).css("color","lightseagreen");
+            }
+
+
+        }
+        
+    });
+
+});
+
+});
+</script>

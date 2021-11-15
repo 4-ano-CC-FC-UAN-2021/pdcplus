@@ -10,7 +10,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class FtpController extends Controller
 {
-    private $ftp_server = "192.168.122.88";
+    private $ftp_server = "192.168.43.152";
     private $ftp_username = "largacaixa";
     private $ftp_userpass = "abc123abc";
 

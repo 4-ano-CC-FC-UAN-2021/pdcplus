@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\SoapPagamigoController;
+use App\Http\Controllers\JuddiPagamigoController;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,16 +20,16 @@ class PagamigoController extends Controller
     }
 
     public function concluirPagamento(Request $request){
-        $soap = new SoapPagamigoController;
+        $soap = new JuddiPagamigoController;
         if(Hash::check($request->pass, Auth::user()->password)){
-            $soap->pagarConteudo($request->valor,$request->valor,$request->creditar_id,$request->post_id);
+            $soap->pagarConteudo($request->valor,$request->preco,$request->creditar_id,$request->post_id);
         }
        return redirect()->route('dashboard');
     }
 
     public function depositoPagamigo(Request $request){
         try{
-            $soap = new SoapPagamigoController;
+            $soap = new JuddiPagamigoController;
             $soap->deposito($request->valor);
             return redirect()->route('dashboard');
         }catch(Exception $e){
@@ -37,5 +37,14 @@ class PagamigoController extends Controller
         }
     }
 
+    public function consutarMovimento($post_id){
+        try{
+            $soap = new JuddiPagamigoController;
+            return $soap->consultarMovimento($post_id);
+            
+        }catch(Exception $e){
+            dd("Erro a depositar");
+        }
+    } 
     
 }

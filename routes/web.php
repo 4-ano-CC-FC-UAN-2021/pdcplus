@@ -8,8 +8,10 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AmigoController;
-use App\Http\Controllers\SoapPagamigoController;
+use App\Http\Controllers\ConsumerJuddiController;
 use App\Http\Controllers\PagamigoController;
+use App\Http\Controllers\JuddiPagamigoController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +29,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    
     $pubs = new PostController;
     $pedidos = new AmigoController;
-    $saldo = new SoapPagamigoController;
+    $saldo = new JuddiPagamigoController;
     return view('feed.inicial',['autorizacoes' => Autorizacao::all(), 'posts' => $pubs->publicacoes(), 'pedidos'=>$pedidos->pedidosRecebidos(),'saldo'=>$saldo->consultarSaldo()]);
 })->name('dashboard');
 
@@ -48,3 +51,5 @@ Route::get('/preco/{pub}',[PostController::class,'conteudoPreco'])->name('defini
 Route::post('/preco/concluir/',[PostController::class,'definirPrecoConteudo'])->name('concluir.preco')->middleware('auth');
 Route::get('/pagamento/{creditar_id}/{valor}/{saldo}/{post_id}',[PagamigoController::class,'confirmarPagamento'])->name('pagar.conteudo')->middleware('auth');
 Route::post('/concluir/compra/',[PagamigoController::class,'concluirPagamento'])->name('concluir.pagamento')->middleware('auth');
+//Route::get('/teste',[ConsumerJuddiController::class,'teste']);
+Route::post('/like',[LikeController::class,'like']);
