@@ -18,6 +18,10 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array  $input
      * @return \App\Models\User
      */
+
+    protected $guard_name = 'api';
+
+
     public function create(array $input)
     {
         Validator::make($input, [
@@ -31,12 +35,16 @@ class CreateNewUser implements CreatesNewUsers
             'username.unique' => 'O Username não está disponivel' 
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'username' => $input['username'],
             'email' => $input['email'],
             'dnasc' => $input['dnasc'],
+            'genero' => $input['genero'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->assignRole($input['tipo']);
+        return $user;
     }
 }

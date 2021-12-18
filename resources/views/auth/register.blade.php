@@ -20,6 +20,12 @@
             </div>
 
             <div class="mt-4">
+                <x-jet-label for="genero" value="{{ __('Genero') }}" />
+                <x-jet-input id="genero" class="" type="radio" name="genero" value="M" required autofocus autocomplete="genero" /><span>Masculino</span>
+                <x-jet-input id="genero" class="" type="radio" name="genero" value="F" required autofocus autocomplete="genero" /><span>Feminino</span>
+            </div>
+
+            <div class="mt-4">
                 <x-jet-label for="dnasc" value="{{ __('Data de Nascimento') }}" />
                 <x-jet-input id="dnasc" class="block mt-1 w-full" type="date" name="dnasc" :value="old('dnasc')" required autofocus autocomplete="name" />
             </div>
@@ -27,6 +33,12 @@
             <div class="mt-4">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="tipo" value="{{ __('Tipo') }}" />
+                <x-jet-input id="tipo" class="" type="radio" name="tipo" value="individual" required autofocus autocomplete="tipo" /><span>Individual</span>
+                <x-jet-input id="tipo" class="" type="radio" name="tipo" value="organizacao" required autofocus autocomplete="tipo" /><span>Organizacional</span>
             </div>
 
             <div class="mt-4">
